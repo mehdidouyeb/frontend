@@ -4,12 +4,19 @@
  * Why: One place to manage all configuration values
  */
 
-// Get the local IP address for development
-// In production, this would be your actual server URL
+// Get the API URL for different environments
 const getApiUrl = () => {
-    // For iOS Simulator and Android Emulator, localhost works
-    // For physical devices, you need your computer's IP address
-    return 'http://100.66.11.219:3000';
+    // Production: Railway cloud backend (works from anywhere!)
+    const PRODUCTION_URL = 'https://backend-production-0b88.up.railway.app';
+
+    // Development: Local backend (for development only)
+    const DEV_URL = 'http://100.66.11.219:3000';
+
+    // Use production URL by default (cloud backend)
+    return PRODUCTION_URL;
+
+    // To switch back to local development, change to:
+    // return DEV_URL;
 };
 
 const config = {

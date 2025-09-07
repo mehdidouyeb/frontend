@@ -90,3 +90,16 @@ export const isLoggedIn = async () => {
         return false;
     }
 };
+
+/**
+ * Clear ALL AsyncStorage data (complete reset)
+ */
+export const clearAllStorage = async () => {
+    try {
+        await AsyncStorage.clear();
+        console.log('All storage cleared successfully');
+    } catch (error) {
+        console.error('Error clearing all storage:', error);
+        throw new Error('Failed to clear all storage');
+    }
+};

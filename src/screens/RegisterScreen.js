@@ -63,17 +63,15 @@ const RegisterScreen = ({ navigation }) => {
             await storeToken(response.token);
             await storeUser(response.user);
 
-            // Show success message and login user
-            Alert.alert(
-                'Success',
-                'Account created successfully!',
-                [
-                    {
-                        text: 'OK',
-                        onPress: async () => await login() // This will trigger navigation to Main stack
-                    }
-                ]
-            );
+            // User is now registered and authenticated, trigger navigation
+            try {
+                await login(); // This will trigger navigation to Main stack
+            } catch (error) {
+                // Ignore socket connection errors during registration
+                console.log('Socket connection issue during registration (non-critical):', error);
+            }
+
+            Alert.alert('Success', 'Account created successfully!');
 
         } catch (error) {
             Alert.alert('Registration Failed', error.message);

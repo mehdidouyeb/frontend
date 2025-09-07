@@ -17,7 +17,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import apiService from '../services/apiService';
-import { storeToken, storeUser } from '../utils/storage';
+import { storeToken, storeUser, clearAllStorage } from '../utils/storage';
 import config from '../config';
 import { useAuth } from '../context/AuthContext';
 
@@ -74,6 +74,31 @@ const LoginScreen = ({ navigation }) => {
         navigation.navigate('Register');
     };
 
+    /**
+     * Reset app storage (for testing PostgreSQL)
+     */
+    const handleResetApp = async () => {
+        Alert.alert(
+            'Reset App',
+            'This will clear all stored data (tokens, user data). Are you sure?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Reset',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await clearAllStorage();
+                            Alert.alert('Success', 'App storage cleared! You can now test fresh.');
+                        } catch (error) {
+                            Alert.alert('Error', 'Failed to clear storage: ' + error.message);
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -124,6 +149,16 @@ const LoginScreen = ({ navigation }) => {
                     >
                         <Text style={styles.linkText}>
                             Don't have an account? Sign up
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.resetButton}
+                        onPress={handleResetApp}
+                        disabled={loading}
+                    >
+                        <Text style={styles.resetText}>
+                            🧹 Reset App (Clear Storage)
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -190,6 +225,19 @@ const styles = StyleSheet.create({
     linkText: {
         color: '#007AFF',
         fontSize: 16,
+    },
+    resetButton: {
+        alignItems: 'center',
+        paddingVertical: 8,
+        marginTop: 20,
+        backgroundColor: '#ff3333',
+        borderRadius: 6,
+        paddingHorizontal: 12,
+    },
+    resetText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '500',
     },
 });
 
