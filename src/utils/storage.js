@@ -30,6 +30,7 @@ export const getStoredToken = async () => {
         return token;
     } catch (error) {
         console.error('Error getting token:', error);
+        // Fallback: return null instead of throwing
         return null;
     }
 };

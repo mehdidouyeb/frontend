@@ -26,6 +26,9 @@ const config = {
     // WebSocket Configuration
     SOCKET_URL: getApiUrl(),
 
+    // Debug Configuration
+    DEBUG: true,
+
     // Storage Keys
     STORAGE_KEYS: {
         TOKEN: 'auth_token',
